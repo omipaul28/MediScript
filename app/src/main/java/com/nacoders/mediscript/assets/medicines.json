@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Napa",
+    "strength": "500mg",
+    "form": "Tablet",
+    "defaultDosage": "1 tablet",
+    "defaultFrequency": "Morning + Night"
+  },
+  {
+    "name": "Paracetamol",
+    "strength": "500mg",
+    "form": "Tablet",
+    "defaultDosage": "1 tablet",
+    "defaultFrequency": "Morning + Night"
+  },
+  {
+    "name": "Azithromycin",
+    "strength": "500mg",
+    "form": "Tablet",
+    "defaultDosage": "1 tablet",
+    "defaultFrequency": "Once Daily"
+  }
+]
