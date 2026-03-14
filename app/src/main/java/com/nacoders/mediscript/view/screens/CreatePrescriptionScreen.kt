@@ -8,10 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.nacoders.mediscript.data.local.database.AppDatabase
-import com.nacoders.mediscript.data.repository.MedicineRepository
 import com.nacoders.mediscript.view.components.AddMedicineButton
 import com.nacoders.mediscript.view.components.MedicineInputSection
 import com.nacoders.mediscript.view.components.PatientInfoCard
@@ -27,13 +24,7 @@ fun CreatePrescriptionScreen(navController: NavController) {
 
     val context = LocalContext.current
 
-    val db = AppDatabase.getDatabase(context)
 
-    val repository = MedicineRepository(db.medicineDao())
-
-    val viewModel: MedicineViewModel = viewModel(
-        factory = MedicineViewModelFactory(repository)
-    )
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -47,7 +38,6 @@ fun CreatePrescriptionScreen(navController: NavController) {
 
         item {
             MedicineInputSection(
-                viewModel,
                 medicineName,
                 dosage,
                 duration,

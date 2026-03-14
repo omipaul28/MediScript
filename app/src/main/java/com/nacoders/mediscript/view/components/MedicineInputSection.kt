@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun MedicineInputSection(
-    medicineViewModel: MedicineViewModel,
     medicineName: String,
     dosage: String,
     duration: String,
@@ -51,11 +50,7 @@ fun MedicineInputSection(
             style = MaterialTheme.typography.titleMedium
         )
 
-        MedicineAutocompleteField(
-            viewModel = medicineViewModel,
-            selectedMedicine = medicineName,
-            onMedicineSelected = onMedicineChange
-        )
+
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
 
