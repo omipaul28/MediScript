@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Napa",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Paracetamol",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Azithromycin",
+    "strength": "500mg",
+    "form": "Tablet"
+  }
+]

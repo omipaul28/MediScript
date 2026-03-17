@@ -8,11 +8,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.nacoders.mediscript.data.local.AppDatabase
+import com.nacoders.mediscript.data.local.repo.MedicineRepository
 import com.nacoders.mediscript.view.components.AddMedicineButton
 import com.nacoders.mediscript.view.components.MedicineInputSection
 import com.nacoders.mediscript.view.components.PatientInfoCard
 import com.nacoders.mediscript.view.components.PrescriptionPreviewCard
+import com.nacoders.mediscript.viewmodel.CreatePrescriptionViewModel
+import com.nacoders.mediscript.viewmodel.CreatePrescriptionViewModelFactory
 
 @Composable
 fun CreatePrescriptionScreen(navController: NavController) {
@@ -23,7 +28,13 @@ fun CreatePrescriptionScreen(navController: NavController) {
     var notes by remember { mutableStateOf("") }
 
     val context = LocalContext.current
+    val database = AppDatabase.getInstance(context)
+    val repository = MedicineRepository(database.medicineDao())
 
+    val viewModel: CreatePrescriptionViewModel = viewModel(
+        factory = CreatePrescriptionViewModelFactory(repository)
+    )
+    val suggestions by viewModel.suggestions.collectAsState()
 
     LazyColumn(
         modifier = Modifier
@@ -38,11 +49,21 @@ fun CreatePrescriptionScreen(navController: NavController) {
 
         item {
             MedicineInputSection(
-                medicineName,
-                dosage,
-                duration,
-                notes,
-                onMedicineChange = { medicineName = it },
+                medicineName = medicineName,
+                dosage = dosage,
+                duration = duration,
+                notes = notes,
+                suggestions = suggestions,
+
+                onMedicineChange = {
+                    medicineName = it
+                    viewModel.updateQuery(it)
+                },
+
+                onSuggestionClick = {
+                    medicineName = it.name?: ""
+                },
+
                 onDosageChange = { dosage = it },
                 onDurationChange = { duration = it },
                 onNotesChange = { notes = it }
