@@ -1,25 +1,39 @@
 package com.nacoders.mediscript.view.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.nacoders.mediscript.models.Prescription
+import com.nacoders.mediscript.data.local.AppDatabase
 import com.nacoders.mediscript.navigation.NavRoutes
+import com.nacoders.mediscript.viewmodel.PatientViewModel
+import com.nacoders.mediscript.viewmodel.PatientViewmodelFactory
 
 @Composable
 fun PrescriptionHistoryScreen(navController: NavController) {
 
-    val prescriptions = listOf(
-        Prescription("1","Rahim Ahmed","12 Mar 2026"),
-        Prescription("2","Karim Uddin","10 Mar 2026"),
-        Prescription("3", "Jannat Begum", "08 Mar 2026")
+    val context = LocalContext.current
+
+    val db = AppDatabase.getInstance(context)
+    val dao = db.patientDao()
+    val prescriptionDao = db.prescriptionDao()
+
+    val viewModel: PatientViewModel = viewModel(
+        factory = PatientViewmodelFactory(dao, prescriptionDao)
     )
+
+
+    val patients by viewModel.patients.collectAsState()
 
     Scaffold(
 
@@ -51,15 +65,19 @@ fun PrescriptionHistoryScreen(navController: NavController) {
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
 
-                items(prescriptions) { prescription ->
+
+                items(patients) { patient ->
 
                     PrescriptionCard(
-                        prescription = prescription
-                    ) {
-                        navController.navigate(
-                            NavRoutes.PRESCRIPTION_DETAIL + "/${prescription.id}"
-                        )
-                    }
+                        patient.name,
+                        patient.age,
+                        patient.phone,
+                        onClick = {
+                            val id = patient.phone
+                            navController.navigate("${NavRoutes.PRESCRIPTION_DETAIL}/$id")
+
+                        }
+                    )
                 }
             }
         }
@@ -84,40 +102,34 @@ fun PrescriptionSearchBar() {
 
 @Composable
 fun PrescriptionCard(
-    prescription: Prescription,
+    name: String,
+    age: String,
+    phone: String,
     onClick: () -> Unit
 ) {
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(90.dp),
-
+            .padding(6.dp),
         elevation = CardDefaults.cardElevation(4.dp),
-
         onClick = onClick
     ) {
 
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .padding(12.dp) // important for spacing
         ) {
 
             Text(
-                text = prescription.patientName,
+                text = name,
                 style = MaterialTheme.typography.titleMedium
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
-            Text(
-                text = "Date: ${prescription.date}",
-                style = MaterialTheme.typography.bodyMedium
-            )
-
-            Text(
-                text = "Tap to view prescription",
-                style = MaterialTheme.typography.bodySmall
-            )
+            Text("Age: $age")
+            Text("Phone: $phone")
         }
     }
 }

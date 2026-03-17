@@ -6,8 +6,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.nacoders.mediscript.data.local.AppDatabase
+import com.nacoders.mediscript.data.local.entity.PatientEntity
+import com.nacoders.mediscript.viewmodel.AddPatientViewmodel
+import com.nacoders.mediscript.viewmodel.AddPatientViewmodelFactory
+
 
 @Composable
 fun AddPatientScreen(navController: NavController) {
@@ -17,7 +24,12 @@ fun AddPatientScreen(navController: NavController) {
     var gender by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
     var address by remember { mutableStateOf("") }
-
+    val context = LocalContext.current
+    val db = AppDatabase.getInstance(context)
+    val dao = db.patientDao()
+    val viewModel: AddPatientViewmodel = viewModel(
+        factory = AddPatientViewmodelFactory(dao)
+    )
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -71,7 +83,28 @@ fun AddPatientScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(12.dp))
 
         Button(
-            onClick = { },
+            onClick = {
+
+                if (name.isBlank() || age == null || phone.isBlank()) return@Button
+
+                val patient = PatientEntity(
+                    name = name,
+                    age = age,
+                    gender = gender,
+                    phone = phone,
+                    address = address
+                )
+                name = ""
+                age = ""
+                gender = ""
+                phone = ""
+                address = ""
+
+
+                viewModel.savePatient(patient)
+
+                navController.popBackStack()
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)

@@ -72,10 +72,10 @@ fun DashboardScreen(navController: NavController) {
 
             item {
                 DashboardCard(
-                    title = "Prescription History",
+                    title = "Prescription List",
                     icon = Icons.Default.MailOutline
                 ) {
-                    navController.navigate(NavRoutes.PRESCRIPTION_HISTORY)
+                    navController.navigate(NavRoutes.PRESCRIPTION_LIST)
                 }
             }
         }

@@ -2,11 +2,15 @@ package com.nacoders.mediscript.navigation
 
 import android.window.SplashScreen
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.*
+import androidx.navigation.navArgument
 import com.nacoders.mediscript.view.screens.AddPatientScreen
 import com.nacoders.mediscript.view.screens.CreatePrescriptionScreen
 import com.nacoders.mediscript.view.screens.DashboardScreen
 import com.nacoders.mediscript.view.screens.LoginScreen
+import com.nacoders.mediscript.view.screens.PatientDetailScreen
 import com.nacoders.mediscript.view.screens.PatientListScreen
 import com.nacoders.mediscript.view.screens.PrescriptionDetailScreen
 import com.nacoders.mediscript.view.screens.PrescriptionHistoryScreen
@@ -48,11 +52,18 @@ fun AppNavGraph() {
             AddPatientScreen(navController)
         }
 
-        composable(NavRoutes.CREATE_PRESCRIPTION) {
-            CreatePrescriptionScreen(navController)
+        composable(
+            route = NavRoutes.CREATE_PRESCRIPTION + "?id={id}", // Use query param syntax for optional
+            arguments = listOf(navArgument("id") {
+                nullable = true
+                defaultValue = null
+            })
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id")
+            CreatePrescriptionScreen(navController, patientId = id)
         }
 
-        composable(NavRoutes.PRESCRIPTION_HISTORY) {
+        composable(NavRoutes.PRESCRIPTION_LIST) {
             PrescriptionHistoryScreen(navController)
         }
 
@@ -64,7 +75,18 @@ fun AppNavGraph() {
 
             PrescriptionDetailScreen(
                 navController,
-                prescriptionId = id ?: ""
+                patientId = id ?: ""
+            )
+        }
+        composable(
+            route = NavRoutes.PATIENT_DETAIL + "/{id}"
+        ) {
+
+            val id = it.arguments?.getString("id")
+
+            PatientDetailScreen(
+                navController,
+                patientId = id ?: ""
             )
         }
 //

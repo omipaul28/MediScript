@@ -26,7 +26,7 @@ val bottomNavItems = listOf(
 
     BottomNavItem(
         "Prescriptions",
-        NavRoutes.PRESCRIPTION_HISTORY,
+        NavRoutes.PRESCRIPTION_LIST,
         Icons.Default.DateRange
     ),
 

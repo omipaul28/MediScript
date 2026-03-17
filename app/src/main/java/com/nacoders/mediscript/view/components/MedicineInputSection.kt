@@ -32,6 +32,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.nacoders.mediscript.data.local.entity.MedicineEntity
@@ -42,26 +43,40 @@ fun MedicineInputSection(
     medicineName: String,
     dosage: String,
     duration: String,
-    notes: String,
+    isMorning: Boolean,
+    isAfternoon: Boolean,
+    isNight: Boolean,
+    onMorningChange: (Boolean) -> Unit,
+    onAfternoonChange: (Boolean) -> Unit,
+    onNightChange: (Boolean) -> Unit,
+    onFocusChanged: (Boolean) -> Unit,
     suggestions: List<MedicineEntity>,
     onMedicineChange: (String) -> Unit,
     onSuggestionClick: (MedicineEntity) -> Unit,
     onDosageChange: (String) -> Unit,
-    onDurationChange: (String) -> Unit,
-    onNotesChange: (String) -> Unit
+    onDurationChange: (String) -> Unit
 ) {
+    var isFocused by remember { mutableStateOf(false) }
+
 
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
 
         OutlinedTextField(
             value = medicineName,
-            onValueChange = onMedicineChange,
-            modifier = Modifier.fillMaxWidth(),
+            onValueChange = {
+                onMedicineChange(it)
+                isFocused = true
+            },
+            modifier = Modifier.fillMaxWidth()
+                .onFocusChanged{
+                    isFocused = it.isFocused
+                    onFocusChanged(it.isFocused)
+                },
             shape = MaterialTheme.shapes.medium,
             label = { Text("Search medicine") }
         )
 
-        if (suggestions.isNotEmpty()) {
+        if (isFocused && suggestions.isNotEmpty()) {
 
             LazyColumn(
                 modifier = Modifier
@@ -77,6 +92,7 @@ fun MedicineInputSection(
                             .fillMaxWidth()
                             .clickable {
                                 onSuggestionClick(medicine)
+                                isFocused = false
                             }
                             .padding(12.dp)
                     )
@@ -104,15 +120,16 @@ fun MedicineInputSection(
             )
         }
 
-        FrequencySelector()
-
-        OutlinedTextField(
-            value = notes,
-            onValueChange = onNotesChange,
-            label = { Text("Notes") },
-            modifier = Modifier.fillMaxWidth(),
-            minLines = 2
+        FrequencySelector(
+            isMorning = isMorning,
+            isAfternoon = isAfternoon,
+            isNight = isNight,
+            onMorningChange = onMorningChange,
+            onAfternoonChange = onAfternoonChange,
+            onNightChange = onNightChange
         )
+
+
 
         VoiceInputButton()
     }
@@ -120,11 +137,14 @@ fun MedicineInputSection(
 
 
 @Composable
-fun FrequencySelector() {
-
-    var selected by remember { mutableStateOf(setOf<String>()) }
-
-    val options = listOf("Morning", "Afternoon", "Night")
+fun FrequencySelector(
+    isMorning: Boolean,
+    isAfternoon: Boolean,
+    isNight: Boolean,
+    onMorningChange: (Boolean) -> Unit,
+    onAfternoonChange: (Boolean) -> Unit,
+    onNightChange: (Boolean) -> Unit
+) {
 
     Column {
 
@@ -137,22 +157,23 @@ fun FrequencySelector() {
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
 
-            options.forEach { option ->
+            FilterChip(
+                selected = isMorning,
+                onClick = { onMorningChange(!isMorning) },
+                label = { Text("Morning") }
+            )
 
-                FilterChip(
-                    selected = selected.contains(option),
+            FilterChip(
+                selected = isAfternoon,
+                onClick = { onAfternoonChange(!isAfternoon) },
+                label = { Text("Afternoon") }
+            )
 
-                    onClick = {
-                        selected =
-                            if (selected.contains(option))
-                                selected - option
-                            else
-                                selected + option
-                    },
-
-                    label = { Text(option) }
-                )
-            }
+            FilterChip(
+                selected = isNight,
+                onClick = { onNightChange(!isNight) },
+                label = { Text("Night") }
+            )
         }
     }
 }
@@ -174,10 +195,10 @@ fun VoiceInputButton() {
 }
 
 @Composable
-fun AddMedicineButton() {
+fun AddMedicineButton(onClick: () -> Unit) {
 
     Button(
-        onClick = { },
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp)
@@ -191,29 +212,3 @@ fun AddMedicineButton() {
     }
 }
 
-@Composable
-fun PrescriptionPreviewCard() {
-
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(4.dp)
-    ) {
-
-        Column(
-            modifier = Modifier.padding(20.dp)
-        ) {
-
-            Text(
-                "Prescription Preview",
-                style = MaterialTheme.typography.titleLarge
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Text("1. Napa 500mg")
-            Text("Dosage: 1 tablet")
-            Text("Morning + Night")
-            Text("Duration: 5 days")
-        }
-    }
-}

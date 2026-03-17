@@ -8,36 +8,71 @@ import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.nacoders.mediscript.data.local.AppDatabase
+import com.nacoders.mediscript.data.local.entity.PatientEntity
+import com.nacoders.mediscript.data.local.entity.PrescriptionEntity
+import com.nacoders.mediscript.models.PrescriptionItem
+import com.nacoders.mediscript.viewmodel.PatientViewModel
+import com.nacoders.mediscript.viewmodel.PatientViewmodelFactory
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @Composable
 fun PrescriptionDetailScreen(
     navController: NavController,
-    prescriptionId: String
+    patientId: String
 ) {
+    val context = LocalContext.current
+    val database = AppDatabase.getInstance(context)
+    val dao = database.patientDao()
+    val prescriptionDao = database.prescriptionDao()
+    val viewModel: PatientViewModel = viewModel(
+        factory = PatientViewmodelFactory(dao, prescriptionDao)
+    )
+    val patient by viewModel.patient.collectAsState()
+    val prescription by viewModel.prescription.collectAsState()
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 64.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
+    LaunchedEffect(patientId) {
+        if (!patientId.isNullOrBlank()) { // Check for blank strings
+            viewModel.loadPatientByPhone(patientId)
+        }
+    }
+    if (patient == null) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
+    } else {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 64.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
 
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
 
-        item { PatientInfoSection() }
+            item { PatientInfoSection(patient) }
 
-        item { MedicineListSection() }
+            item { MedicineListSection(prescription) }
 
-        item { NotesSection() }
+            item { NotesSection(prescription) }
 
-        item { ActionButtons() }
+            item { ActionButtons() }
+        }
     }
 }
 
 @Composable
-fun PatientInfoSection() {
+fun PatientInfoSection(patient: PatientEntity?) {
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -56,16 +91,18 @@ fun PatientInfoSection() {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text("Name: Rahim Ahmed")
-            Text("Age: 45")
-            Text("Gender: Male")
-            Text("Phone: 01700000000")
+            if (patient != null) {
+                Text("Name: ${patient.name}")
+                Text("Age: ${patient.age}")
+                Text("Gender: ${patient.gender}")
+                Text("Phone: ${patient.phone}")
+            }
         }
     }
 }
 
 @Composable
-fun MedicineListSection() {
+fun MedicineListSection(prescription: PrescriptionEntity?) {
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -81,20 +118,20 @@ fun MedicineListSection() {
                 text = "Medicines",
                 style = MaterialTheme.typography.titleLarge
             )
-
-            MedicineItem(
-                name = "Napa 500mg",
-                dosage = "1 tablet",
-                frequency = "Morning + Night",
-                duration = "5 days"
+            val formattedDate = prescription?.let { formatPrescriptionTime(it.date) } ?: ""
+            Text(
+                text = "Last Prescribed: $formattedDate",
+                style = MaterialTheme.typography.titleSmall
             )
 
-            MedicineItem(
-                name = "Omeprazole",
-                dosage = "1 capsule",
-                frequency = "Morning",
-                duration = "7 days"
-            )
+            prescription?.medicineList?.forEach { medicine ->
+                MedicineItem(
+                    name = medicine.name,
+                    dosage = medicine.dosage,
+                    frequency = formatFrequency(medicine),
+                    duration = medicine.duration
+                )
+            }
         }
     }
 }
@@ -131,7 +168,7 @@ fun MedicineItem(
 }
 
 @Composable
-fun NotesSection() {
+fun NotesSection(prescription: PrescriptionEntity?) {
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -149,8 +186,9 @@ fun NotesSection() {
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            val note: String? = prescription?.notes
             Text(
-                text = "Take medicine after food. Drink plenty of water."
+                text = "$note"
             )
         }
     }
@@ -191,4 +229,18 @@ fun ActionButtons() {
             Text("Share Prescription")
         }
     }
+}
+
+fun formatFrequency(item: PrescriptionItem): String {
+    val times = mutableListOf<String>()
+    if (item.isMorning) times.add("Morning")
+    if (item.isAfternoon) times.add("Afternoon")
+    if (item.isNight) times.add("Night")
+
+    return if (times.isEmpty()) "As needed" else times.joinToString(" + ")
+}
+fun formatPrescriptionTime(timestamp: Long): String {
+    val instant = Instant.ofEpochMilli(timestamp)
+    val formatter = DateTimeFormatter.ofPattern("h:mm a, d MMMM, yyyy", Locale.ENGLISH)
+    return instant.atZone(ZoneId.systemDefault()).format(formatter)
 }

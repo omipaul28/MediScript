@@ -13,9 +13,12 @@ object NavRoutes {
 
     const val CREATE_PRESCRIPTION = "create_prescription"
 
-    const val PRESCRIPTION_HISTORY = "prescription_history"
+    const val PRESCRIPTION_LIST = "prescription_list"
 
     const val PRESCRIPTION_DETAIL = "prescription_detail"
+
+    const val PATIENT_DETAIL = "patient_detail"
+
 
     const val SETTINGS = "settings"
 }
