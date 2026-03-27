@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -20,6 +21,7 @@ import com.nacoders.mediscript.data.local.AppDatabase
 import com.nacoders.mediscript.data.local.entity.PatientEntity
 import com.nacoders.mediscript.data.local.entity.PrescriptionEntity
 import com.nacoders.mediscript.models.PrescriptionItem
+import com.nacoders.mediscript.util.PdfGenerator
 import com.nacoders.mediscript.viewmodel.PatientViewModel
 import com.nacoders.mediscript.viewmodel.PatientViewmodelFactory
 import java.time.Instant
@@ -66,7 +68,14 @@ fun PrescriptionDetailScreen(
 
             item { NotesSection(prescription) }
 
-            item { ActionButtons() }
+            item {
+                patient?.let { currentPatient ->
+                    ActionButtons(
+                        patient = currentPatient,
+                        prescription = prescription
+                    )
+                }
+            }
         }
     }
 }
@@ -195,42 +204,34 @@ fun NotesSection(prescription: PrescriptionEntity?) {
 }
 
 @Composable
-fun ActionButtons() {
+fun ActionButtons(patient: PatientEntity, prescription: PrescriptionEntity?) {
+    val context = LocalContext.current
+    // Initialize the generator
+    val generator = remember { PdfGenerator(context) }
 
-    Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-
+    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Button(
-            onClick = { },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
+            onClick = {
+                // Call the generation and saving logic
+                generator.generateAndSavePdf(patient, prescription)
+            },
+            modifier = Modifier.fillMaxWidth().height(56.dp)
         ) {
-
             Icon(Icons.Default.ExitToApp, contentDescription = null)
-
             Spacer(modifier = Modifier.width(8.dp))
-
             Text("Generate PDF")
         }
 
         OutlinedButton(
-            onClick = { },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
+            onClick = { /* Handle Share */ },
+            modifier = Modifier.fillMaxWidth().height(56.dp)
         ) {
-
             Icon(Icons.Default.Share, contentDescription = null)
-
             Spacer(modifier = Modifier.width(8.dp))
-
             Text("Share Prescription")
         }
     }
 }
-
 fun formatFrequency(item: PrescriptionItem): String {
     val times = mutableListOf<String>()
     if (item.isMorning) times.add("Morning")
