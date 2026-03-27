@@ -26,6 +26,13 @@ import com.nacoders.mediscript.viewmodel.CreatePrescriptionViewModel
 import com.nacoders.mediscript.viewmodel.CreatePrescriptionViewModelFactory
 import com.nacoders.mediscript.viewmodel.PatientViewModel
 import com.nacoders.mediscript.viewmodel.PatientViewmodelFactory
+import android.content.Intent
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
+import android.speech.RecognitionListener
+import android.os.Bundle
+import androidx.compose.material.icons.filled.Phone
+import com.nacoders.mediscript.utils.parsePrescriptionVoice
 
 @Composable
 fun CreatePrescriptionScreen(navController: NavController, patientId: String?) {
@@ -52,6 +59,27 @@ fun CreatePrescriptionScreen(navController: NavController, patientId: String?) {
     val suggestions by viewModel.suggestions.collectAsState()
     var isMedicineFocused by remember { mutableStateOf(false) }
     val patient by viewModel2.patient.collectAsState()
+
+    val voiceRecognizer = rememberVoiceRecognizer { result ->
+        parsePrescriptionVoice(
+            text = result,
+            onNameFound = { medicineName = it },
+            onDosageFound = { dosage = it },
+            onDurationFound = { duration = it },
+            onTimeFound = { m, a, n ->
+                isMorning = m
+                isAfternoon = a
+                isNight = n
+            }
+        )
+    }
+    val startListening = {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true) // Force offline
+        }
+        voiceRecognizer.startListening(intent)
+    }
 
 
     LaunchedEffect(patientId) {
@@ -104,6 +132,15 @@ fun CreatePrescriptionScreen(navController: NavController, patientId: String?) {
                 onDosageChange = { dosage = it },
                 onDurationChange = { duration = it }
             )
+        }
+        item {
+            Button(
+                onClick = { startListening() },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(Icons.Default.Phone, contentDescription = null) // Use a Mic icon here
+                Text("Dictate Prescription")
+            }
         }
 
         item {
@@ -173,4 +210,31 @@ fun CreatePrescriptionScreen(navController: NavController, patientId: String?) {
             }
         }
     }
+}
+
+@Composable
+fun rememberVoiceRecognizer(onResult: (String) -> Unit): SpeechRecognizer {
+    val context = LocalContext.current
+    val recognizer = remember { SpeechRecognizer.createSpeechRecognizer(context) }
+
+    DisposableEffect(Unit) {
+        val listener = object : RecognitionListener {
+            override fun onResults(results: Bundle?) {
+                val data = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                data?.firstOrNull()?.let { onResult(it) }
+            }
+            // Implement other required methods with empty bodies
+            override fun onReadyForSpeech(params: Bundle?) {}
+            override fun onBeginningOfSpeech() {}
+            override fun onRmsChanged(rmsdB: Float) {}
+            override fun onBufferReceived(buffer: ByteArray?) {}
+            override fun onEndOfSpeech() {}
+            override fun onError(error: Int) {}
+            override fun onPartialResults(partialResults: Bundle?) {}
+            override fun onEvent(eventType: Int, params: Bundle?) {}
+        }
+        recognizer.setRecognitionListener(listener)
+        onDispose { recognizer.destroy() }
+    }
+    return recognizer
 }

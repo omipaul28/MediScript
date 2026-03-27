@@ -129,9 +129,6 @@ fun MedicineInputSection(
             onNightChange = onNightChange
         )
 
-
-
-        VoiceInputButton()
     }
 }
 
@@ -177,23 +174,6 @@ fun FrequencySelector(
         }
     }
 }
-
-@Composable
-fun VoiceInputButton() {
-
-    OutlinedButton(
-        onClick = { },
-        modifier = Modifier.fillMaxWidth()
-    ) {
-
-        Icon(Icons.Default.Phone, null)
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Text("Voice Input")
-    }
-}
-
 @Composable
 fun AddMedicineButton(onClick: () -> Unit) {
 
