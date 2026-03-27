@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "927778339705",
+    "project_id": "mediscript-4dcea",
+    "storage_bucket": "mediscript-4dcea.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927778339705:android:435616fd4b937db2eccda8",
+        "android_client_info": {
+          "package_name": "com.nacoders.mediscript"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACxZEFMgTa0UJTZjL70HpVRuCJ2Iie3Kw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -7,9 +7,11 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.nacoders.mediscript.data.Converters
+import com.nacoders.mediscript.data.local.dao.DoctorDao
 import com.nacoders.mediscript.data.local.dao.MedicineDao
 import com.nacoders.mediscript.data.local.dao.PatientDao
 import com.nacoders.mediscript.data.local.dao.PrescriptionDao
+import com.nacoders.mediscript.data.local.entity.DoctorEntity
 import com.nacoders.mediscript.data.local.entity.MedicineEntity
 import com.nacoders.mediscript.data.local.entity.PatientEntity
 import com.nacoders.mediscript.data.local.entity.PrescriptionEntity
@@ -23,7 +25,8 @@ import kotlinx.coroutines.launch
     entities = [
         MedicineEntity::class,
         PatientEntity::class,
-        PrescriptionEntity::class
+        PrescriptionEntity::class,
+        DoctorEntity::class
                ],
     version = 3,
     exportSchema = false
@@ -34,6 +37,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun medicineDao(): MedicineDao
     abstract fun patientDao(): PatientDao
     abstract fun prescriptionDao(): PrescriptionDao
+    abstract fun doctorDao(): DoctorDao
 
     companion object {
         @Volatile

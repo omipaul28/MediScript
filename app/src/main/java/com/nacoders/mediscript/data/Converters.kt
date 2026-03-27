@@ -1,8 +1,8 @@
 package com.nacoders.mediscript.data
 
 import androidx.room.TypeConverter
-import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.nacoders.mediscript.models.PrescriptionItem
 
 class Converters {

@@ -1,11 +1,11 @@
 package com.nacoders.mediscript.navigation
 
-import android.window.SplashScreen
+
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
+import com.google.firebase.auth.FirebaseAuth
 import com.nacoders.mediscript.view.screens.AddPatientScreen
 import com.nacoders.mediscript.view.screens.CreatePrescriptionScreen
 import com.nacoders.mediscript.view.screens.DashboardScreen
@@ -15,17 +15,20 @@ import com.nacoders.mediscript.view.screens.PatientListScreen
 import com.nacoders.mediscript.view.screens.PrescriptionDetailScreen
 import com.nacoders.mediscript.view.screens.PrescriptionHistoryScreen
 import com.nacoders.mediscript.view.screens.RegisterScreen
-import com.nacoders.mediscript.view.screens.SettingsScreen
 import com.nacoders.mediscript.view.screens.SplashScreen
+import com.nacoders.mediscript.viewmodel.AuthViewModel
 
 @Composable
 fun AppNavGraph() {
 
     val navController = rememberNavController()
+    val authViewModel: AuthViewModel = viewModel()
+    val currentUser = FirebaseAuth.getInstance().currentUser
+    val startDest = if (currentUser != null) NavRoutes.DASHBOARD else NavRoutes.LOGIN
 
     NavHost(
         navController = navController,
-        startDestination = NavRoutes.DASHBOARD
+        startDestination = startDest
     ) {
 
         composable(NavRoutes.SPLASH) {
@@ -33,11 +36,11 @@ fun AppNavGraph() {
         }
 
         composable(NavRoutes.LOGIN) {
-            LoginScreen(navController)
+            LoginScreen(navController, authViewModel)
         }
 
         composable(NavRoutes.REGISTER) {
-            RegisterScreen(navController)
+            RegisterScreen(navController, authViewModel)
         }
 
         composable(NavRoutes.DASHBOARD) {
@@ -53,7 +56,7 @@ fun AppNavGraph() {
         }
 
         composable(
-            route = NavRoutes.CREATE_PRESCRIPTION + "?id={id}", // Use query param syntax for optional
+            route = NavRoutes.CREATE_PRESCRIPTION + "?id={id}",
             arguments = listOf(navArgument("id") {
                 nullable = true
                 defaultValue = null

@@ -8,13 +8,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.nacoders.mediscript.navigation.NavRoutes
 import com.nacoders.mediscript.view.components.DashboardCard
+import com.nacoders.mediscript.viewmodel.AuthViewModel
+import com.nacoders.mediscript.viewmodel.AuthViewModelFactory
 
 
 @Composable
@@ -26,7 +31,14 @@ fun DashboardScreen(navController: NavController) {
             .padding(top = 64.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
     ) {
 
-        DoctorHeader()
+        val context = androidx.compose.ui.platform.LocalContext.current.applicationContext as android.app.Application
+        val authViewModel: AuthViewModel = viewModel(
+            factory = AuthViewModelFactory(context)
+        )
+        val doctorData by authViewModel.doctorProfile.collectAsState()
+        DoctorHeader(name = doctorData?.name ?: "Doctor",
+            hospital = doctorData?.hospital ?: "Medical Center",
+            onLogout = { authViewModel.logout(navController) })
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -83,7 +95,7 @@ fun DashboardScreen(navController: NavController) {
 }
 
 @Composable
-fun DoctorHeader() {
+fun DoctorHeader(name: String, hospital: String, onLogout: () -> Unit) {
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -117,17 +129,12 @@ fun DoctorHeader() {
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            Column {
-
-                Text(
-                    text = "Dr. John Doe",
-                    style = MaterialTheme.typography.titleLarge
-                )
-
-                Text(
-                    text = "City Medical Center",
-                    style = MaterialTheme.typography.bodyMedium
-                )
+            Column(modifier = Modifier.weight(1f)) {
+                Text(text = name, style = MaterialTheme.typography.titleLarge)
+                Text(text = hospital, style = MaterialTheme.typography.bodyMedium)
+            }
+            IconButton(onClick = onLogout) {
+                Icon(Icons.Default.ExitToApp, contentDescription = "Logout", tint = MaterialTheme.colorScheme.error)
             }
         }
     }

@@ -206,8 +206,21 @@ fun NotesSection(prescription: PrescriptionEntity?) {
 @Composable
 fun ActionButtons(patient: PatientEntity, prescription: PrescriptionEntity?) {
     val context = LocalContext.current
-    // Initialize the generator
     val generator = remember { PdfGenerator(context) }
+    fun sharePdf(file: java.io.File) {
+        val uri = androidx.core.content.FileProvider.getUriForFile(
+            context,
+            "${context.packageName}.fileprovider", // Matches your Manifest authority
+            file
+        )
+
+        val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+            type = "application/pdf"
+            putExtra(android.content.Intent.EXTRA_STREAM, uri)
+            addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        context.startActivity(android.content.Intent.createChooser(intent, "Share Prescription"))
+    }
 
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Button(
@@ -223,7 +236,16 @@ fun ActionButtons(patient: PatientEntity, prescription: PrescriptionEntity?) {
         }
 
         OutlinedButton(
-            onClick = { /* Handle Share */ },
+            onClick = {
+
+                val pdfFile = generator.generateAndSavePdf(patient, prescription)
+
+                if (pdfFile != null && pdfFile.exists()) {
+                    sharePdf(pdfFile)
+                } else {
+                    //any error
+                }
+            },
             modifier = Modifier.fillMaxWidth().height(56.dp)
         ) {
             Icon(Icons.Default.Share, contentDescription = null)

@@ -9,12 +9,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.nacoders.mediscript.navigation.NavRoutes
+import com.nacoders.mediscript.viewmodel.AuthViewModel
 
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = viewModel()) {
+    val errorMessage by authViewModel.errorMessage
+    val isLoading by authViewModel.isLoading
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -64,13 +68,18 @@ fun LoginScreen(navController: NavController) {
             singleLine = true,
             visualTransformation = PasswordVisualTransformation()
         )
+        if (errorMessage != null) {
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(text = errorMessage!!, color = MaterialTheme.colorScheme.error)
+        }
 
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
             onClick = {
-                navController.navigate(NavRoutes.DASHBOARD)
+                authViewModel.loginDoctor(email, password, navController)
             },
+            enabled = !isLoading,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
@@ -88,5 +97,6 @@ fun LoginScreen(navController: NavController) {
         ) {
             Text("Create Doctor Account")
         }
+
     }
 }

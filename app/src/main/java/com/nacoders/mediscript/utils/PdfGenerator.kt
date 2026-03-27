@@ -1,25 +1,21 @@
 package com.nacoders.mediscript.util
 
-import android.content.ContentValues
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
-import android.os.Build
 import android.os.Environment
-import android.provider.MediaStore
 import android.widget.Toast
 import com.nacoders.mediscript.data.local.entity.PatientEntity
 import com.nacoders.mediscript.data.local.entity.PrescriptionEntity
 import java.io.File
 import java.io.FileOutputStream
-import java.io.OutputStream
 
 class PdfGenerator(private val context: Context) {
 
-    fun generateAndSavePdf(patient: PatientEntity, prescription: PrescriptionEntity?) {
+    fun generateAndSavePdf(patient: PatientEntity, prescription: PrescriptionEntity?): File? {
         val pdfDocument = PdfDocument()
         val pageWidth = 595
         val pageHeight = 842 // A4 Height
@@ -54,19 +50,19 @@ class PdfGenerator(private val context: Context) {
         paint.typeface = regularTypeface
         paint.textSize = 12f
         canvas.drawText("Name: ${patient.name}", 40f, yPos, paint)
-        canvas.drawText("Phone: ${patient.phone}", 350f, yPos, paint) // Side-by-side layout
+        canvas.drawText("Phone: ${patient.phone}", 350f, yPos, paint)
 
         yPos += 20f
         canvas.drawText("Age/Gender: ${patient.age} / ${patient.gender}", 40f, yPos, paint)
 
         yPos += 30f
-        canvas.drawLine(40f, yPos, 555f, yPos, paint) // Section Divider
+        canvas.drawLine(40f, yPos, 555f, yPos, paint)
 
-
+        // --- Medicines Section ---
         yPos += 40f
         paint.typeface = boldTypeface
         paint.textSize = 18f
-        canvas.drawText("Medicines", 40f, yPos, paint) // Traditional Prescription Symbol
+        canvas.drawText("Medicines", 40f, yPos, paint)
 
         yPos += 30f
         paint.textSize = 12f
@@ -88,6 +84,7 @@ class PdfGenerator(private val context: Context) {
             }
         }
 
+        // --- Notes Section ---
         yPos += 20f
         if (!prescription?.notes.isNullOrBlank()) {
             paint.typeface = boldTypeface
@@ -101,52 +98,37 @@ class PdfGenerator(private val context: Context) {
             canvas.drawText(notes, 40f, yPos, paint)
         }
 
+        // --- Footer ---
         paint.textSize = 10f
         paint.color = Color.GRAY
         canvas.drawText("Generated via Mediscript App", 220f, 810f, paint)
 
         pdfDocument.finishPage(page)
-        saveFile(patient.name, pdfDocument)
+
+        // Save to file and return it
+        return savePdfToFile(patient.name, pdfDocument)
     }
 
-    private fun saveFile(patientName: String, pdfDocument: PdfDocument) {
-        val fileName = "Prescription_${patientName.replace(" ", "_")}_${System.currentTimeMillis()}.pdf"
+    private fun savePdfToFile(patientName: String, pdfDocument: PdfDocument): File? {
+        val fileName = "Prescription_${patientName.replace(" ", "_")}.pdf"
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val resolver = context.contentResolver
-            val contentValues = ContentValues().apply {
-                put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
-                put(MediaStore.MediaColumns.MIME_TYPE, "application/pdf")
-                put(MediaStore.MediaColumns.RELATIVE_PATH, "Download/Mediscript")
-            }
+        val directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
 
-            val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
+        if (directory != null && !directory.exists()) {
+            directory.mkdirs()
+        }
 
-            uri?.let { fileUri ->
-                try {
-                    val outputStream: OutputStream? = resolver.openOutputStream(fileUri)
-                    outputStream?.use { pdfDocument.writeTo(it) }
-                    Toast.makeText(context, "PDF saved to Downloads/Mediscript", Toast.LENGTH_LONG).show()
-                } catch (e: Exception) {
-                    Toast.makeText(context, "Failed to save PDF: ${e.message}", Toast.LENGTH_SHORT).show()
-                } finally {
-                    pdfDocument.close()
-                }
-            }
-        } else {
-            try {
-                val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                val appDir = File(downloadsDir, "Mediscript")
-                if (!appDir.exists()) appDir.mkdirs()
+        val file = File(directory, fileName)
 
-                val file = File(appDir, fileName)
-                FileOutputStream(file).use { pdfDocument.writeTo(it) }
-                Toast.makeText(context, "PDF saved to Downloads/Mediscript", Toast.LENGTH_LONG).show()
-            } catch (e: Exception) {
-                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-            } finally {
-                pdfDocument.close()
-            }
+        return try {
+            FileOutputStream(file).use { pdfDocument.writeTo(it) }
+            Toast.makeText(context, "Prescription Prepared", Toast.LENGTH_SHORT).show()
+            file // Success: Return the file
+        } catch (e: Exception) {
+            Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            null // Failure: Return null
+        } finally {
+            pdfDocument.close()
         }
     }
 }

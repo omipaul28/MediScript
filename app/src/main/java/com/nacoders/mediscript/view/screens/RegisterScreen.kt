@@ -2,17 +2,24 @@ package com.nacoders.mediscript.view.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.nacoders.mediscript.viewmodel.AuthViewModel
 
 @Composable
-fun RegisterScreen(navController: NavController) {
+fun RegisterScreen(navController: NavController, authViewModel: AuthViewModel = viewModel()) {
+    val errorMessage by authViewModel.errorMessage
+    val isLoading by authViewModel.isLoading
 
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -87,23 +94,29 @@ fun RegisterScreen(navController: NavController) {
             onValueChange = { password = it },
             label = { Text("Create Password") },
             modifier = Modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.medium,
-            singleLine = true,
-            visualTransformation = PasswordVisualTransformation()
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done
+            )
         )
+        if (errorMessage != null) {
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(text = errorMessage!!, color = MaterialTheme.colorScheme.error)
+        }
 
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
-            onClick = {
-                navController.popBackStack()
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            shape = MaterialTheme.shapes.medium
+            onClick = { authViewModel.registerDoctor(name, email, phone, hospital, password, navController) },
+            enabled = !isLoading,
+            modifier = Modifier.fillMaxWidth().height(56.dp)
         ) {
-            Text("Register Doctor")
+            if (isLoading) {
+                CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(24.dp))
+            } else {
+                Text("Register Doctor")
+            }
         }
 
         Spacer(modifier = Modifier.height(12.dp))
