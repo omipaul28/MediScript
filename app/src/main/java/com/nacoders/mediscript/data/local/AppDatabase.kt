@@ -28,8 +28,8 @@ import kotlinx.coroutines.launch
         PrescriptionEntity::class,
         DoctorEntity::class
                ],
-    version = 3,
-    exportSchema = false
+    version = 5,
+    exportSchema = true
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -48,15 +48,14 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "app_db"
+                    "mediscript_db"
                 )
-                    .fallbackToDestructiveMigration()
                     .addCallback(object : Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
-                            // Trigger population once the DB is created for the first time
+                            // Pre-populate only on first creation
                             INSTANCE?.let { database ->
-                                prePopulateDatabase(context, database)
+                                prePopulateDatabase(context.applicationContext, database)
                             }
                         }
                     })
@@ -69,11 +68,12 @@ abstract class AppDatabase : RoomDatabase() {
         private fun prePopulateDatabase(context: Context, database: AppDatabase) {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
-                    val medicines = loadMedicines(context)
+                    val medicines = loadMedicines(context) //
                     if (medicines.isNotEmpty()) {
                         database.medicineDao().insertAll(medicines)
                     }
                 } catch (e: Exception) {
+                    // Log error in production using a tool like Crashlytics
                     e.printStackTrace()
                 }
             }

@@ -7,9 +7,12 @@ import androidx.room.PrimaryKey
 data class PatientEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val name: String,
-    val age: String,
-    val gender: String,
-    val phone: String,
-    val address: String
+    val doctorId: String = "",
+    val name: String = "",
+    val age: String= "",
+    val gender: String= "",
+    val phone: String= "",
+    val address: String= "",
+    val isSynced: Boolean = false,
+    val lastUpdated: Long = System.currentTimeMillis()
 )

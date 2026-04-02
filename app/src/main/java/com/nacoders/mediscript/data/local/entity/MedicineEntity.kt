@@ -10,9 +10,9 @@ import androidx.room.PrimaryKey
 )
 data class MedicineEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0, // Default to 0 so Room handles generation
-
-    val name: String?,
-    val strength: String?,
-    val form: String?
+    val id: Int = 0,
+    val name: String? = "",
+    val strength: String? = "",
+    val form: String? = "",
+    val isSynced: Boolean = false
 )

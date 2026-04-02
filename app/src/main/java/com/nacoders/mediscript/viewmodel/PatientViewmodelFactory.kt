@@ -7,12 +7,14 @@ import com.nacoders.mediscript.data.local.dao.PrescriptionDao
 
 class PatientViewmodelFactory(
     private val dao: PatientDao,
-    private val prescriptionDao: PrescriptionDao
+    private val prescriptionDao: PrescriptionDao,
+    private val doctorId: String // Add this parameter
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(PatientViewModel::class.java)) {
-            return PatientViewModel(dao, prescriptionDao) as T
+            // Pass doctorId into the ViewModel constructor
+            return PatientViewModel(dao, prescriptionDao, doctorId) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -1,40 +1,35 @@
 package com.nacoders.mediscript.navigation
 
-
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
+import androidx.navigation.NavType
 import com.google.firebase.auth.FirebaseAuth
-import com.nacoders.mediscript.view.screens.AddPatientScreen
-import com.nacoders.mediscript.view.screens.CreatePrescriptionScreen
-import com.nacoders.mediscript.view.screens.DashboardScreen
-import com.nacoders.mediscript.view.screens.LoginScreen
-import com.nacoders.mediscript.view.screens.PatientDetailScreen
-import com.nacoders.mediscript.view.screens.PatientListScreen
-import com.nacoders.mediscript.view.screens.PrescriptionDetailScreen
-import com.nacoders.mediscript.view.screens.PrescriptionHistoryScreen
-import com.nacoders.mediscript.view.screens.RegisterScreen
-import com.nacoders.mediscript.view.screens.SplashScreen
+import com.nacoders.mediscript.view.screens.*
 import com.nacoders.mediscript.viewmodel.AuthViewModel
 
 @Composable
 fun AppNavGraph() {
-
     val navController = rememberNavController()
     val authViewModel: AuthViewModel = viewModel()
+
+    // Check initial auth state
     val currentUser = FirebaseAuth.getInstance().currentUser
     val startDest = if (currentUser != null) NavRoutes.DASHBOARD else NavRoutes.LOGIN
 
     NavHost(
         navController = navController,
-        startDestination = startDest
+        startDestination = startDest,
+        // Global transitions for a premium feel
+        enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, tween(400)) },
+        exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left, tween(400)) },
+        popEnterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(400)) },
+        popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(400)) }
     ) {
-
-        composable(NavRoutes.SPLASH) {
-            SplashScreen(navController)
-        }
-
+        // --- Auth Screens ---
         composable(NavRoutes.LOGIN) {
             LoginScreen(navController, authViewModel)
         }
@@ -43,10 +38,12 @@ fun AppNavGraph() {
             RegisterScreen(navController, authViewModel)
         }
 
+        // --- Core App ---
         composable(NavRoutes.DASHBOARD) {
             DashboardScreen(navController)
         }
 
+        // --- Patient Flow ---
         composable(NavRoutes.PATIENT_LIST) {
             PatientListScreen(navController)
         }
@@ -55,6 +52,15 @@ fun AppNavGraph() {
             AddPatientScreen(navController)
         }
 
+        composable(
+            route = "${NavRoutes.PATIENT_DETAIL}/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id") ?: ""
+            PatientDetailScreen(navController, patientId = id)
+        }
+
+        // --- Prescription Flow ---
         composable(
             route = NavRoutes.CREATE_PRESCRIPTION + "?id={id}",
             arguments = listOf(navArgument("id") {
@@ -71,30 +77,11 @@ fun AppNavGraph() {
         }
 
         composable(
-            route = NavRoutes.PRESCRIPTION_DETAIL + "/{id}"
-        ) {
-
-            val id = it.arguments?.getString("id")
-
-            PrescriptionDetailScreen(
-                navController,
-                patientId = id ?: ""
-            )
+            route = "${NavRoutes.PRESCRIPTION_DETAIL}/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id") ?: ""
+            PrescriptionDetailScreen(navController, patientId = id)
         }
-        composable(
-            route = NavRoutes.PATIENT_DETAIL + "/{id}"
-        ) {
-
-            val id = it.arguments?.getString("id")
-
-            PatientDetailScreen(
-                navController,
-                patientId = id ?: ""
-            )
-        }
-//
-//        composable(NavRoutes.SETTINGS) {
-//            SettingsScreen(navController)
-//        }
     }
 }

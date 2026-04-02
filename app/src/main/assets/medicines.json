@@ -13,5 +13,1040 @@
     "name": "Azithromycin",
     "strength": "500mg",
     "form": "Tablet"
+  },
+  {
+    "name": "Ace",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Ace Plus",
+    "strength": "650mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Napa Extend",
+    "strength": "665mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Napa Extra",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Seclo",
+    "strength": "20mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Losectil",
+    "strength": "20mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Pantonix",
+    "strength": "20mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Maxpro",
+    "strength": "20mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Sergel",
+    "strength": "20mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Esoral",
+    "strength": "20mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Antacid",
+    "strength": "250mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Gasnil",
+    "strength": "250mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Alatrol",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Fexo",
+    "strength": "120mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Histalex",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Deslor",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Cetizin",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Monas",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Montair",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Bextram",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Ceevit",
+    "strength": "250mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Amdocal",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Amdopin",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Losucon",
+    "strength": "50mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Angilock",
+    "strength": "50mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Cardovan",
+    "strength": "80mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Tritace",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Bisocor",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Nebilol",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Atenol",
+    "strength": "50mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Concor",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Frusemide",
+    "strength": "40mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Torpedo",
+    "strength": "20mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Rosuva",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Atorva",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Lipitor",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Aspirin",
+    "strength": "75mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Clopid",
+    "strength": "75mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Ticagrel",
+    "strength": "90mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Metfo",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Comet",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Glucozid",
+    "strength": "80mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Amaryl",
+    "strength": "2mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Sitagliptin",
+    "strength": "50mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Empaglif",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Vilda",
+    "strength": "50mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Insulatard",
+    "strength": "100IU",
+    "form": "Injection"
+  },
+  {
+    "name": "Mixtard",
+    "strength": "100IU",
+    "form": "Injection"
+  },
+  {
+    "name": "Cef-3",
+    "strength": "200mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Cefixime",
+    "strength": "200mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Cefotil",
+    "strength": "250mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Zinnat",
+    "strength": "250mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Cefurox",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Ceftriaxone",
+    "strength": "1gm",
+    "form": "Injection"
+  },
+  {
+    "name": "Rocephin",
+    "strength": "1gm",
+    "form": "Injection"
+  },
+  {
+    "name": "Cefepime",
+    "strength": "1gm",
+    "form": "Injection"
+  },
+  {
+    "name": "Amoxicillin",
+    "strength": "500mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Moxacil",
+    "strength": "500mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Amoxyclav",
+    "strength": "625mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Augmentin",
+    "strength": "625mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Fluclox",
+    "strength": "500mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Cloxacillin",
+    "strength": "500mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Levoflox",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Ciprocin",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Ciprofloxacin",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Moxifloxacin",
+    "strength": "400mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Doxicap",
+    "strength": "100mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Doxycycline",
+    "strength": "100mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Erythromycin",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Clarithromycin",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Metronidazole",
+    "strength": "400mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Flagyl",
+    "strength": "400mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Tinidazole",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Fluconazole",
+    "strength": "150mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Fungin",
+    "strength": "150mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Itraconazole",
+    "strength": "100mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Terbinafine",
+    "strength": "250mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Acyclovir",
+    "strength": "400mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Valacyclovir",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Oseltamivir",
+    "strength": "75mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Zovirax",
+    "strength": "400mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Napa One",
+    "strength": "1000mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Diclofen",
+    "strength": "50mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Voltalin",
+    "strength": "50mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Diclofenac",
+    "strength": "75mg",
+    "form": "Injection"
+  },
+  {
+    "name": "Aceclofenac",
+    "strength": "100mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Etoricoxib",
+    "strength": "90mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Naproxen",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Ibuprofen",
+    "strength": "400mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Ketorolac",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Tramadol",
+    "strength": "50mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Tolmus",
+    "strength": "2mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Myolax",
+    "strength": "50mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Baclofen",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Gabapin",
+    "strength": "300mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Pregaba",
+    "strength": "75mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Nervalin",
+    "strength": "75mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Clonazepam",
+    "strength": "0.5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Alprazolam",
+    "strength": "0.5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Diazepam",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Loratin",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Mirtazapine",
+    "strength": "15mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Fluoxetine",
+    "strength": "20mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Sertraline",
+    "strength": "50mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Escitalo",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Amitriptyline",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Quetiapine",
+    "strength": "25mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Risperidone",
+    "strength": "1mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Olanzapine",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Levocet",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Salbutamol",
+    "strength": "2mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Ventolin",
+    "strength": "100mcg",
+    "form": "Inhaler"
+  },
+  {
+    "name": "Brodil",
+    "strength": "2mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Theophylline",
+    "strength": "200mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Montelukast",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Budesonide",
+    "strength": "200mcg",
+    "form": "Inhaler"
+  },
+  {
+    "name": "Fluticasone",
+    "strength": "250mcg",
+    "form": "Inhaler"
+  },
+  {
+    "name": "Tiotropium",
+    "strength": "18mcg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Duolin",
+    "strength": "2.5ml",
+    "form": "Nebulizer Solution"
+  },
+  {
+    "name": "Mucolyt",
+    "strength": "600mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Ambrox",
+    "strength": "30mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Bromhexine",
+    "strength": "8mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Tusca",
+    "strength": "100ml",
+    "form": "Syrup"
+  },
+  {
+    "name": "Dextromethorphan",
+    "strength": "15mg",
+    "form": "Syrup"
+  },
+  {
+    "name": "ORS",
+    "strength": "21.8gm",
+    "form": "Powder"
+  },
+  {
+    "name": "Zinc B",
+    "strength": "20mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Filmet",
+    "strength": "400mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Loperamide",
+    "strength": "2mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Domperidone",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Motigut",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Ondansetron",
+    "strength": "8mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Emistat",
+    "strength": "8mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Lansoprazole",
+    "strength": "30mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Rabeprazole",
+    "strength": "20mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Pantoprazole",
+    "strength": "40mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Omeprazole",
+    "strength": "20mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Esomeprazole",
+    "strength": "20mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Ranitidine",
+    "strength": "150mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Famotidine",
+    "strength": "20mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Antazol",
+    "strength": "200mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Bisacodyl",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Lactulose",
+    "strength": "100ml",
+    "form": "Syrup"
+  },
+  {
+    "name": "Mebeverine",
+    "strength": "135mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Spasmofen",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Drotaverine",
+    "strength": "40mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Xinc",
+    "strength": "20mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Calbo D",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Calcium-D",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Ostocal",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "D-Rise",
+    "strength": "20000IU",
+    "form": "Capsule"
+  },
+  {
+    "name": "Vitamin D3",
+    "strength": "400IU",
+    "form": "Drop"
+  },
+  {
+    "name": "Ferovit",
+    "strength": "100mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Hemofix",
+    "strength": "100mg",
+    "form": "Capsule"
+  },
+  {
+    "name": "Folic Acid",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Becozinc",
+    "strength": "1mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Neuro-B",
+    "strength": "100mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Vitamin B Complex",
+    "strength": "1mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Zimax",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Xorel",
+    "strength": "20mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Rivaroxaban",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Warfarin",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Enoxaparin",
+    "strength": "40mg",
+    "form": "Injection"
+  },
+  {
+    "name": "Heparin",
+    "strength": "5000IU",
+    "form": "Injection"
+  },
+  {
+    "name": "Tranexamic Acid",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Tracid",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Cinnarizine",
+    "strength": "25mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Betahistine",
+    "strength": "16mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Vertina",
+    "strength": "16mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Stemetil",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Meclizine",
+    "strength": "25mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Cyclopam",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Hyoscine",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Atropine",
+    "strength": "1%",
+    "form": "Drop"
+  },
+  {
+    "name": "Timolol",
+    "strength": "0.5%",
+    "form": "Drop"
+  },
+  {
+    "name": "Moxiflox Eye",
+    "strength": "0.5%",
+    "form": "Drop"
+  },
+  {
+    "name": "Tobramycin",
+    "strength": "0.3%",
+    "form": "Drop"
+  },
+  {
+    "name": "Chloramphenicol",
+    "strength": "0.5%",
+    "form": "Drop"
+  },
+  {
+    "name": "Napa Suppository",
+    "strength": "125mg",
+    "form": "Suppository"
+  },
+  {
+    "name": "Glyset",
+    "strength": "50mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Linagliptin",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Teneligliptin",
+    "strength": "20mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Pioglitazone",
+    "strength": "15mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Glimepiride",
+    "strength": "2mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Metformin XR",
+    "strength": "500mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Dapagliflozin",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Voglibose",
+    "strength": "0.2mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Insulin Glargine",
+    "strength": "100IU",
+    "form": "Injection"
+  },
+  {
+    "name": "Insulin Aspart",
+    "strength": "100IU",
+    "form": "Injection"
+  },
+  {
+    "name": "Furosemide",
+    "strength": "40mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Spironolactone",
+    "strength": "25mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Hydrochlorothiazide",
+    "strength": "25mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Telmisartan",
+    "strength": "40mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Valsartan",
+    "strength": "80mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Olmesartan",
+    "strength": "20mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Irbesartan",
+    "strength": "150mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Ramipril",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Perindopril",
+    "strength": "4mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Bisoprolol",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Nebivolol",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Carvedilol",
+    "strength": "6.25mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Propranolol",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Isosorbide",
+    "strength": "5mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Nitroglycerin",
+    "strength": "2.6mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Atorvastatin",
+    "strength": "20mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Rosuvastatin",
+    "strength": "10mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Fenofibrate",
+    "strength": "145mg",
+    "form": "Tablet"
+  },
+  {
+    "name": "Gemfibrozil",
+    "strength": "600mg",
+    "form": "Tablet"
   }
 ]

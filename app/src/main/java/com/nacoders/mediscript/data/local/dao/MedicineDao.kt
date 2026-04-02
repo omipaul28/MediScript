@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MedicineDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(medicines: List<MedicineEntity>)
 
@@ -23,6 +22,9 @@ interface MedicineDao {
     LIMIT 20
     """)
     fun autoComplete(query: String): Flow<List<MedicineEntity>>
+
+    @Query("SELECT * FROM medicines WHERE isSynced = 0")
+    suspend fun getUnsyncedMedicines(): List<MedicineEntity>
 }
 
 

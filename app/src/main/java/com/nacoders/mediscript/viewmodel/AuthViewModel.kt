@@ -27,6 +27,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val _errorMessage = mutableStateOf<String?>(null)
     val errorMessage: State<String?> = _errorMessage
 
+    private val _successMessage = mutableStateOf<String?>(null)
+    val successMessage: State<String?> = _successMessage
+
     val doctorProfile: StateFlow<DoctorEntity?> = doctorDao.getDoctor()
         .stateIn(
             scope = viewModelScope,
@@ -34,28 +37,53 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             initialValue = null
         )
 
-    fun registerDoctor(name: String, email: String, phone: String, hospital: String, pass: String, navController: NavController) {
+    fun registerDoctor(
+        name: String,
+        email: String,
+        phone: String,
+        hospital: String,
+        pass: String,
+        navController: NavController
+    ) {
         if (name.isBlank() || email.isBlank() || pass.isBlank()) {
             _errorMessage.value = "Please fill required fields"
             return
         }
 
         _isLoading.value = true
+        _errorMessage.value = null
+        _successMessage.value = null
+
         auth.createUserWithEmailAndPassword(email, pass)
             .addOnSuccessListener { result ->
-                val userId = result.user?.uid
-                val doctor = DoctorEntity(userId!!, name, email, phone, hospital)
+                val user = result.user
+                user?.sendEmailVerification()
+                    ?.addOnSuccessListener {
+                        val userId = user.uid
+                        val doctor = DoctorEntity(userId, name, email, phone, hospital)
 
-                // Save to Firestore
-                db.collection("doctors").document(userId).set(doctor)
-                    .addOnSuccessListener {
-                        viewModelScope.launch {
-                            doctorDao.insertDoctor(doctor)
-                            _isLoading.value = false
-                            navController.navigate(NavRoutes.DASHBOARD) {
-                                popUpTo(NavRoutes.REGISTER) { inclusive = true }
+                        // Save profile to Firestore and Local DB
+                        db.collection("doctors").document(userId).set(doctor)
+                            .addOnSuccessListener {
+                                viewModelScope.launch {
+                                    doctorDao.insertDoctor(doctor)
+                                    // Sign out immediately; user must verify before login
+                                    auth.signOut()
+                                    _isLoading.value = false
+                                    _successMessage.value = "Verification email sent to $email. Please verify to login."
+                                    navController.navigate(NavRoutes.LOGIN) {
+                                        popUpTo(NavRoutes.REGISTER) { inclusive = true }
+                                    }
+                                }
                             }
-                        }
+                            .addOnFailureListener {
+                                _isLoading.value = false
+                                _errorMessage.value = "Profile setup failed: ${it.localizedMessage}"
+                            }
+                    }
+                    ?.addOnFailureListener {
+                        _isLoading.value = false
+                        _errorMessage.value = "Account created, but failed to send verification email."
                     }
             }
             .addOnFailureListener {
@@ -65,12 +93,28 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun loginDoctor(email: String, pass: String, navController: NavController) {
+        if (email.isBlank() || pass.isBlank()) {
+            _errorMessage.value = "Please enter your credentials"
+            return
+        }
+
         _isLoading.value = true
+        _errorMessage.value = null
+        _successMessage.value = null
+
         auth.signInWithEmailAndPassword(email, pass)
             .addOnSuccessListener { result ->
-                val uid = result.user?.uid
-                if (uid != null) {
-                    fetchAndSyncDoctor(uid, navController)
+                val user = result.user
+                // Check if email is verified before proceeding
+                if (user != null) {
+                    if (user.isEmailVerified) {
+                        fetchAndSyncDoctor(user.uid, navController)
+                    } else {
+                        // Reject access and sign out if not verified
+                        auth.signOut()
+                        _isLoading.value = false
+                        _errorMessage.value = "Please verify your email address to continue."
+                    }
                 }
             }
             .addOnFailureListener {
@@ -93,22 +137,26 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                     viewModelScope.launch {
                         doctorDao.insertDoctor(doctor)
                         _isLoading.value = false
+                        // Use consistent navigation routes
                         navController.navigate(NavRoutes.DASHBOARD) {
                             popUpTo(NavRoutes.LOGIN) { inclusive = true }
                         }
                     }
+                } else {
+                    _isLoading.value = false
+                    _errorMessage.value = "Doctor profile not found in cloud."
                 }
             }
             .addOnFailureListener {
                 _isLoading.value = false
-                _errorMessage.value = "Failed to fetch profile"
+                _errorMessage.value = "Synchronization failed."
             }
     }
 
     fun logout(navController: NavController) {
         viewModelScope.launch {
             auth.signOut()
-            doctorDao.clearDoctor()
+            doctorDao.clearDoctor() // Ensure local data is purged
             navController.navigate(NavRoutes.LOGIN) {
                 popUpTo(NavRoutes.DASHBOARD) { inclusive = true }
             }
