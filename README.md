@@ -146,12 +146,17 @@ cd MediScript
 
 ## 📸 Screenshots (Add yours)
 
-```
-<img width="738" height="1600" alt="WhatsApp Image 2026-04-21 at 10 52 11 AM" src="https://github.com/user-attachments/assets/b99cf2f9-d43f-4a01-a087-3a4d7ed3acc2" />
-<img width="738" height="1600" alt="WhatsApp Image 2026-04-21 at 10 52 11 AM (1)" src="https://github.com/user-attachments/assets/8e16e942-71ac-4fe0-a177-a6bad0f6eee6" />
-<img width="738" height="1600" alt="WhatsApp Image 2026-04-21 at 10 52 10 AM" src="https://github.com/user-attachments/assets/43b8e277-0e78-45e4-943b-6b88812bf49f" />
-<img width="738" height="1600" alt="WhatsApp Image 2026-04-21 at 10 52 10 AM (2)" src="https://github.com/user-attachments/assets/61a9f7ae-775e-4849-9e1c-22fef1272de1" />
-<img width="738" height="1600" alt="WhatsApp Image 2026-04-21 at 10 52 10 AM (1)" src="https://github.com/user-attachments/assets/4702fc77-6064-4b7b-86a1-d52b97021e3d" />
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b99cf2f9-d43f-4a01-a087-3a4d7ed3acc2" width="250"/>
+  <img src="https://github.com/user-attachments/assets/8e16e942-71ac-4fe0-a177-a6bad0f6eee6" width="250"/>
+  <img src="https://github.com/user-attachments/assets/43b8e277-0e78-45e4-943b-6b88812bf49f" width="250"/>
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/61a9f7ae-775e-4849-9e1c-22fef1272de1" width="250"/>
+  <img src="https://github.com/user-attachments/assets/4702fc77-6064-4b7b-86a1-d52b97021e3d" width="250"/>
+</p>
 
 ```
 
